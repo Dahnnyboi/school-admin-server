@@ -1,9 +1,21 @@
+import "module-alias/register";
+import "reflect-metadata";
+
+import loaders from "@loaders/index";
 import express from "express";
+import { PORT } from "@config/constants";
+import logger from "@utils/logger";
+
 const app = express();
-const PORT: string | number = process.env.PORT || 5000;
 
-app.use("*", (req, res) => {
-  res.send("<h1>Welcome to your simple server! Awesome right</h1>");
-});
+function startServer() {
+  const app = express();
 
-app.listen(PORT, () => console.log(`hosting @${PORT}`));
+  loaders(app);
+
+  app.listen(PORT, () => {
+    logger.info(`Server is running at port ${PORT}`);
+  });
+}
+
+startServer();
